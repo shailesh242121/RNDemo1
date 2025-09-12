@@ -11,16 +11,61 @@ import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Index from './index.tsx';
+import SearchView from './Views/SearchView.tsx';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+//  const isDarkMode = useColorScheme() === 'dark';
 
+  return(
+    // <NavigationContainer>
+    //   <RootStack />
+    //  </NavigationContainer>
+    <View>
+      <SearchView />
+    </View>
+
+
+        //  IndexView()
+          // SearchView()
+
+  )
+
+  function IndexView() {
+    return (
+      <View>
+        <Index />
+      </View>
+    )
+  }
+
+  function SearchViewGroup() {
+    return (
+      <View>
+        <SearchView />
+      </View>
+    );
+  }
+
+  const Stack = createNativeStackNavigator();
+
+function RootStack() {
   return (
-    <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
-    </SafeAreaProvider>
+    <Stack.Navigator>
+      
+      <Stack.Screen name="Index" component={Index} />  
+      <Stack.Screen name="App" component={AppContent} />
+    </Stack.Navigator>
   );
+}
+  // return (
+  //   <SafeAreaProvider>
+  //     <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+  //     <AppContent />
+  //   </SafeAreaProvider>
+  // );
 }
 
 function AppContent() {
