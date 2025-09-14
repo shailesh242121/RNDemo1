@@ -49,6 +49,16 @@ class SearchView extends React.Component {
           keyExtractor={(item) => item.id} // Unique key for each item
           
         />
+        
+        {/* <ListView
+        
+        data={DATA}
+        renderItem={({ item }) => <Item title={item.title} />}
+        keyExtractor={(item) => item.id}
+        style={{ marginBottom: 70 }}
+          >
+
+        </ListView> */}
       </View>
     )
   };

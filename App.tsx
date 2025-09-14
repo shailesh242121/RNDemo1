@@ -6,40 +6,112 @@
  */
 
 import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { StatusBar, StyleSheet, useColorScheme, Button, View, Platform } from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Index from './index.tsx';
-import SearchView from './Views/SearchView.tsx';
+import {
+  createStaticNavigation,
+  NavigationContainer,
+  useNavigationContainerRef,
+} from '@react-navigation/native';
+//import {StackNavigator} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import SearchView from './Views/SearchView.tsx';
+import Screen1 from './Views/Navigation/Screen1.tsx';
+import Screen2 from './Views/Navigation/Screen2.tsx';
+import HomeScreen from './Views/Navigation/Home.tsx';
+import indexScreen from './Views/index.tsx';
+import Views from './Views/Views.tsx';
+import Login from './Views/Login/Login.tsx';
+import Register from './Views/Login/Register.tsx';
+import SectionListBasics from './Views/SectionListBasics.tsx';
+import FlexTest from './Views/FlexTest.tsx';
+
+
+
+const RootStackNav = createNativeStackNavigator({
+  screens: {
+    Index: {
+      screen: indexScreen,
+      options: {title: 'Index'},
+    },
+    Views: {
+      screen: Views,
+    },
+     List: {
+      screen: SearchView,
+    },
+    sectionList:{
+      screen:SectionListBasics
+    },
+     Login: {
+      screen: Login,
+    },
+     Reigster: {
+      screen: Register,
+    },
+    FlexDemo:{
+      screen: FlexTest,
+    }
+
+  },
+});
+
+
+const style = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'red',
+      },
+      android: {
+        backgroundColor: 'green',
+      }
+    })
+  }
+});
 function App() {
 //  const isDarkMode = useColorScheme() === 'dark';
 
+
+
+
+const Navigation = createStaticNavigation(RootStackNav);
+
   return(
+    <Navigation />
+  //  <HomeScreen/>
     // <NavigationContainer>
-    //   <RootStack />
+    //    <Stack.Navigator initialRouteName="Index">
+    //       <Stack.Screen name="Index" component={Index} />
+    //       <Stack.Screen name="Screen1" component={Screen1} />
+    //     </Stack.Navigator>
     //  </NavigationContainer>
-    <View>
-      <SearchView />
-    </View>
+    // <View>
+    //   <SearchView />
+    // </View>
 
-
+  //  SearchViewGroup()
         //  IndexView()
-          // SearchView()
+
+        // RootStack()
+        // HomeScreenNavigator()
 
   )
 
-  function IndexView() {
-    return (
-      <View>
-        <Index />
-      </View>
-    )
-  }
+  // function IndexView() {
+  //   return (
+  //     <View>
+  //       <Index />
+  //     </View>
+  //   )
+  // }
 
   function SearchViewGroup() {
     return (
@@ -49,17 +121,12 @@ function App() {
     );
   }
 
-  const Stack = createNativeStackNavigator();
+  type RootStackParamList = {
+    Index: undefined;
+    Screen1: undefined;
+  };
 
-function RootStack() {
-  return (
-    <Stack.Navigator>
-      
-      <Stack.Screen name="Index" component={Index} />  
-      <Stack.Screen name="App" component={AppContent} />
-    </Stack.Navigator>
-  );
-}
+  
   // return (
   //   <SafeAreaProvider>
   //     <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
