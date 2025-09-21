@@ -29,6 +29,8 @@ import Login from './Views/Login/Login.tsx';
 import Register from './Views/Login/Register.tsx';
 import SectionListBasics from './Views/SectionListBasics.tsx';
 import FlexTest from './Views/FlexTest.tsx';
+import TodoList from './Views/todoList/todoList.tsx';
+import NetworkIndex from './Network/NetworkIndex.tsx';
 
 
 
@@ -55,7 +57,13 @@ const RootStackNav = createNativeStackNavigator({
     },
     FlexDemo:{
       screen: FlexTest,
-    }
+    },
+    Todolist:{
+      screen: TodoList,
+    },
+    NetworkCall:{
+      screen: NetworkIndex,
+    },
 
   },
 });

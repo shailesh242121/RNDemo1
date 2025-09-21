@@ -10,6 +10,7 @@ const Login: React.FC = () => {
     const handleLogin = () => {
        if(username === 'user' && password === 'pass') {
         Alert.alert('Login Successful', 'You have successfully logged in.',);
+        navigation.navigate('Home' as never);
        } else {
         Alert.alert('Invalid Credentials');
        }
