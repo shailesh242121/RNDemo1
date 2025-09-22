@@ -1,16 +1,21 @@
   class User {
-      name: string;
-      age: number ;
+      username: string;
+      dob: string ;
       email: string;
+      password: string;
+      id:string;
+  
       
-      constructor(name:string, age:number, email:string) {
-        this.name = name;
-        this.age = age;
+      constructor(name:string, age:string, email:string, password:string) {
+        this.username = name;
+        this.dob = age;
         this.email = email;
+        this.password = password;
+        this.id = Math.random().toString();
       }
 
       getGreeting() {
-        return `Hello, my name is ${this.name}!`;
+        return `Hello, my name is ${this.username}!`;
       }
     }
 

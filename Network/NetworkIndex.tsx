@@ -5,7 +5,7 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 const NetworkIndex = () => {
 
-    let GET_API = "http://localhost:3000/user?id=eeee";
+    let GET_API = "http://192.168.1.13:3000/user";
     let GET_API2 = "https://jsonplaceholder.typicode.com/posts/1";
 
     var navigation = useNavigation();
@@ -15,10 +15,13 @@ const NetworkIndex = () => {
     const [loading, setLoading] = useState(true);
 
     const items = [{
-        title: 'Fetch Example', action: () => getUserList(), result: "Hello Fetch"
+        title: 'GET - Fetch Example local', action: () => getUserList(), result: "Hello Fetch"
     },
     {
-        title: 'Axios Example', action: () => getCallTest(), result: "Hello Axios"
+        title: 'Post - API call', action: () => addUser(), result: "Hello Axios"
+    },
+    {
+        title: 'GET - API call', action: () => getCallTest(), result: "Hello Axios"
     }]
 
 
@@ -33,7 +36,7 @@ const NetworkIndex = () => {
             } catch (error) {
                 console.error(error);
             } finally {
-                setLoading(false); // Hide loading indicator after fetch
+               setLoading(false); // Hide loading indicator after fetch
             }
         };
 
@@ -68,7 +71,8 @@ const NetworkIndex = () => {
 }
 
     function getCallTest() {
-        fetch(GET_API2)
+        setLoading(true);
+        fetch(GET_API)
             .then((response) => response.json())
             .then((json) => {
                 console.log("Fetch API call result is ", json);
@@ -97,7 +101,33 @@ const NetworkIndex = () => {
             });
     }
 
+    function addUser() {
+        fetch(GET_API, {
+            method: 'POST', 
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                {"dob":"1990-01-01","email":"s@s.com","password":"password123","username":"testashishasdassdiuser"}
+            )
+        })
+            .then((response) => response.json())    
+            .then((json) => {
+                console.log("Fetch API call result is ", json);
+                setShowResult(true);
+                items[0].result = JSON.stringify(json);
+                setResult(JSON.stringify(json))
+                Alert.alert("Fetch API call result is " + JSON.stringify(json));
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
+
+
 
 }
 
 export default NetworkIndex;
+

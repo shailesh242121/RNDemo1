@@ -64,6 +64,9 @@ const RootStackNav = createNativeStackNavigator({
     NetworkCall:{
       screen: NetworkIndex,
     },
+    Home: {
+      screen: HomeScreen,
+    },
 
   },
 });

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import User from '../Model/User';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -13,8 +14,13 @@ const Register: React.FC = () => {
             Alert.alert('Error', 'Please fill all fields');
             return;
         }
+
+        let newUser = new User(username, dob, email, password);
+        console.log("Registered User: ", newUser);
+        // Alert.alert('Success', `Registered user: ${newUser.getGreeting()}`);
+         addUser(newUser);
         // Registration logic here
-        Alert.alert('Success', 'Registered successfully!');
+        // Alert.alert('Success', 'Registered successfully!');
     };
 
     return (
@@ -51,6 +57,32 @@ const Register: React.FC = () => {
             <Button title="Register" onPress={handleRegister} />
         </View>
     );
+
+    let GET_API = "http://192.168.1.13:3000/user";
+
+    async function addUser(user: User) {
+        try {
+            console.log("user is " + JSON.stringify(user));
+            const response = await fetch(GET_API, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    dob: user.dob,
+                    email: user.email,
+                    password: user.password,
+                    username: user.username
+                })
+            });
+            const json = await response.json();
+            console.log("Post API call result is ", json);
+            Alert.alert("Post API call result is " + JSON.stringify(json));
+        } catch (error) {
+            console.error(error);
+        }
+    }
 };
 
 const styles = StyleSheet.create({

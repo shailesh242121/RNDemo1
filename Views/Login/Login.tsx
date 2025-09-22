@@ -1,6 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import * as NetworkIndex from '../../Network/NetworkIndex';
+import User from '../Model/User';
 
 const Login: React.FC = () => {
      const navigation = useNavigation();
@@ -8,13 +10,41 @@ const Login: React.FC = () => {
     const [password, setPassword] = useState('');
 
     const handleLogin = () => {
-       if(username === 'user' && password === 'pass') {
-        Alert.alert('Login Successful', 'You have successfully logged in.',);
-        navigation.navigate('Home' as never);
+       if(username === '' || password === '') {
+
+     let user = new User('username', 'passwrd', 'test@t', '1234');
+
+        Alert.alert('Invalid Credentials', 'Please enter username and password',);
+        // navigation.navigate('Home' as never, {userData:{user}} );
        } else {
-        Alert.alert('Invalid Credentials');
+        getUserList(username, password);
        }
     };
+
+    let GET_API = "http://192.168.1.13:3000/user";
+     function getUserList(username: string, password: string) {
+        fetch(GET_API+
+            '?username=' + username +
+            '&password=' + password 
+        )
+            .then((response) => response.json())
+            .then((json) => {
+                console.log("Fetch API call result is ", json);
+                let userList = JSON.stringify(json)
+                if(userList === '[]') {
+                    Alert.alert('Invalid Credentials', 'Please enter valid username and password',);
+                }else {
+                    let user= (json as User[])[0];
+             // Alert.alert("User found '" +user.username+"'");
+
+                    navigation.navigate('Home' as never, { userData: { user } } as never);
+                }
+                // setResult(JSON.stringify(json))
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }
 
 
     const handleRegister = () => {
