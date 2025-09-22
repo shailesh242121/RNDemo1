@@ -60,29 +60,31 @@ const Register: React.FC = () => {
 
     let GET_API = "http://192.168.1.13:3000/user";
 
-    async function addUser(user: User) {
-        try {
-            console.log("user is " + JSON.stringify(user));
-            const response = await fetch(GET_API, {
-                method: 'POST',
+     function addUser(user:User) {
+        console.log("use is "+JSON.stringify(user));
+            fetch(GET_API, {
+                method: 'POST', 
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    dob: user.dob,
-                    email: user.email,
-                    password: user.password,
-                    username: user.username
+                body: JSON.stringify(
+                                    {"dob":"1990-01-01","email":"s@s.com","password":"password123","username":"testassdfasfasdfahishiuser"}
+
+                )
+            })
+                .then((response) => response.json())    
+                .then((json) => {
+                    console.log("Post API call result is ", json);
+                    // setShowResult(true);
+                    // items[0].result = JSON.stringify(json);
+                    // setResult(JSON.stringify(json))
+                    Alert.alert("Post API call result is " + JSON.stringify(json));
                 })
-            });
-            const json = await response.json();
-            console.log("Post API call result is ", json);
-            Alert.alert("Post API call result is " + JSON.stringify(json));
-        } catch (error) {
-            console.error(error);
+                .catch((error) => {
+                    console.error(error);
+                });
         }
-    }
 };
 
 const styles = StyleSheet.create({

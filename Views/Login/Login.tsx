@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import * as NetworkIndex from '../../Network/NetworkIndex';
 import User from '../Model/User';
 
@@ -8,12 +8,14 @@ const Login: React.FC = () => {
      const navigation = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = () => {
+        setIsLoading(true);
        if(username === '' || password === '') {
 
      let user = new User('username', 'passwrd', 'test@t', '1234');
-
+            setIsLoading(false);
         Alert.alert('Invalid Credentials', 'Please enter username and password',);
         // navigation.navigate('Home' as never, {userData:{user}} );
        } else {
@@ -31,6 +33,7 @@ const Login: React.FC = () => {
             .then((json) => {
                 console.log("Fetch API call result is ", json);
                 let userList = JSON.stringify(json)
+                setIsLoading(false);
                 if(userList === '[]') {
                     Alert.alert('Invalid Credentials', 'Please enter valid username and password',);
                 }else {
@@ -43,6 +46,7 @@ const Login: React.FC = () => {
             })
             .catch((error) => {
                 console.error(error);
+                setIsLoading(false);
             });
     }
 
@@ -69,7 +73,8 @@ const Login: React.FC = () => {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-            <Button title="Login" onPress={handleLogin} />
+           {isLoading && <ActivityIndicator></ActivityIndicator>} 
+           {!isLoading && <Button title="Login" onPress={handleLogin} />}
             <TouchableOpacity onPress={handleRegister} style={styles.registerBtn}>
                 <Text style={styles.registerText}>Register Now</Text>
             </TouchableOpacity>
