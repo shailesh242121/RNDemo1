@@ -1,107 +1,12 @@
 
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, ScrollView, TouchableOpacity, Alert, TextInput } from 'react-native';
+import { View, Text, Button, StyleSheet, ActivityIndicator, Image, ScrollView, TouchableOpacity, Alert, TextInput } from 'react-native';
 import CustomButton from './CustomButton';
 import { RadioButton } from 'react-native-paper';
+import { styles, styleRB } from './styles';
+//  const { ToastModule } = ReactNative.NativeModules;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  featureContainer: {
-    borderColor: 'black',
-    borderWidth: 1,
-    margin: 10,
-    padding: 10,
-  },
-  button: {
-    backgroundColor: '#007bff',
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 5,
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  titleStyle: {
-    color: 'white',
-    fontSize: 22,
-    padding: 10,
-    fontWeight: 'bold',
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
 
-  },
-  setMargin: {
-    marginTop: 50
-  },
-
-  input: {
-    backgroundColor: 'white',
-    height: 40,
-    margin: 12,
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 10,
-  }, header: {
-    fontSize: 20,
-    fontWeight: "bold"
-  },
-   container_box: {
-    flexDirection: 'row', // Arrange children horizontally
-    alignItems: 'center', // Vertically center children
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-  },
-  input_box: {
-    flex: 1, // Allow TextInput to take up available space
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#eee',
-    paddingHorizontal: 10,
-    marginRight: 10, // Add some space between TextInput and Button
-    borderRadius: 5,
-  },
-
-});
-
-const styleRB = StyleSheet.create
-  ({
-    radioGroup: {
-      flexDirection: 'row', // Arrange radio buttons in a row
-      alignItems: 'center', // Align items vertically in the center
-      justifyContent: 'space-around', // Space out radio buttons evenly
-      marginTop: 20, // Add margin at the top
-      borderRadius: 8, // Rounded corners
-      backgroundColor: 'white', // White background for the group
-      padding: 16, // Padding inside the group
-      elevation: 4, // Shadow for Android
-      shadowColor: '#000', // Shadow color for iOS
-      shadowOffset: {
-        width: 0,
-        height: 2, // Shadow offset for iOS
-      },
-      shadowOpacity: 0.25, // Shadow opacity for iOS
-      shadowRadius: 3.84, // Shadow radius for iOS
-    },
-    radioButton: {
-      flexDirection: 'row', // Arrange radio button and label in a row
-      alignItems: 'center', // Align items vertically in the center
-    },
-    radioLabel: {
-      marginLeft: 8, // Space between radio button and label
-      fontSize: 16, // Font size for the label
-      color: '#333', // Dark gray color for the label
-    },
-  })
 
 
 const logo = {
@@ -110,6 +15,7 @@ const logo = {
   height: 64,
 };
 function Views({ navigation, route }: any) {
+  const [textToSearch, setTextToSearch] = React.useState<string>('');
 
   // const { itemId, otherParam } = route.params;
 
@@ -124,10 +30,21 @@ function Views({ navigation, route }: any) {
     setSelectedValue(value);
   }
 
+  // function showToastFromNative() {
+  //    ToastModule.showMessage("Hello from React Native!", (error:Error, message:string) => {
+  //       if (error) {
+  //           console.error(error);
+  //       } else {
+  //           console.log(message);
+  //       }
+  //   });
+  // }
+
   return (
     <ScrollView>
 
       <View style={[styles.featureContainer]}>
+        <Text style={[styles.featureHeading]}> Image from URL</Text>
         <Image
           source={{
             uri: 'https://reactnative.dev/docs/assets/p_cat2.png',
@@ -137,60 +54,85 @@ function Views({ navigation, route }: any) {
 
       </View>
       <View style={[styles.featureContainer]}>
+        <Text style={[styles.featureHeading]}> Props from previous Screen</Text>
         <Text> I Found the following Detilas </Text>
         <Text>Props 1: {JSON.stringify(dummy)}</Text>
-              <Text>Props 2: {JSON.stringify(userData)}</Text>
+        <Text>Props 2: {JSON.stringify(userData)}</Text>
         <Text> itemId: {JSON.stringify(dummy.itemId)}</Text>
         <Text> otherParam: {JSON.stringify(dummy.otherParam)}</Text>
         <Text> User Name : {JSON.stringify(user.name)}</Text>
         <Text> User Age : {JSON.stringify(user.age)}</Text>
-        <Text> User Email : {JSON.stringify(user.email)}</Text> 
+        <Text> User Email : {JSON.stringify(user.email)}</Text>
 
       </View>
+
 
       <View style={[styles.featureContainer]}>
-        <Image source={logo} />
+        <Text style={[styles.featureHeading]}>Activity Indicator</Text>
+        <ActivityIndicator />
+        <ActivityIndicator size="large" />
+        <ActivityIndicator size="small" color="#0000ff" />
+        <ActivityIndicator size="large" color="#00ff00" />
       </View>
+
+
+
       <Text style={styles.header}>Centered Texted Text View ext</Text>
 
- <View style={styles.container_box}>
-      <TextInput
-        style={styles.input_box}
-        placeholder="Enter text..."
-      />
-      <Button
-        title="Submit"
-        onPress={() => console.log('Button pressed')}
-      />
-    </View>
+      <View style={styles.container_box}>
+        <TextInput
+          style={styles.input_box}
+          onChangeText={setTextToSearch}
+          value={textToSearch}
+          placeholder="Enter text1..."
+        />
+        <Button
+          title="Submit"
+          onPress={() => console.log('Button pressed')}
+        />
 
-
-      <TextInput
-        style={{ height: 40, padding: 5 }}
-        placeholder="Type here to translate!"
-        onChangeText={newText => setText(newText)}
-        defaultValue={text}
-      />
-      <Text style={{ padding: 10, fontSize: 42 }}>
-        {text
-          .split(' ')
-          .map(word => word && '🍕')
-          .join(' ')}
-      </Text>
-
-      <View style={{
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 10, backgroundColor: 'black',
-      }}>
-        <Text style={{ color: 'white', fontSize: 20 }}>Index</Text>
+        <View style={{ borderStyle: 'solid', borderColor: 'black', borderRadius: '10' }}>
+          You have entered :{textToSearch}
+        </View>
       </View>
-      <CustomButton />
+
       <View style={[styles.featureContainer]}>
-        <Button title="Login UI" onPress={() => {
-          console.log("Go to App clicked")
-          showAlert("login Clicked")
-        }} />
+        <Text style={[styles.featureHeading]}>Text with spaces will be a pizza slice</Text>
+
+        <TextInput
+          style={{ height: 40, padding: 5 }}
+          placeholder="Type here to translate!"
+          onChangeText={newText => setText(newText)}
+          defaultValue={text}
+        />
+        <Text style={{ padding: 10, fontSize: 42 }}>
+          {text
+            .split(' ')
+            .map(word => word && '🍕')
+            .join(' ')}
+        </Text>
+      </View>
+
+      <View style={[styles.featureContainer]}>
+        <View style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: 10, backgroundColor: 'black',
+        }}>
+          <Text style={{ color: 'white', fontSize: 20 }}>Index</Text>
+        </View>
+
+        <View style={[styles.featureContainer]}>
+          <Text style={[styles.featureHeading]}>Include example</Text>
+          <CustomButton />
+        </View>
+
+        <View style={[styles.featureContainer]}>
+          <Button title="Click me show Alert" onPress={() => {
+            console.log("Go to App clicked")
+            showAlert("login Clicked")
+          }} />
+        </View>
       </View>
 
       <TouchableOpacity style={[styles.button]} >
@@ -212,13 +154,15 @@ function Views({ navigation, route }: any) {
         />
         <Button title='Button 2' disabled onPress={() => { showAlert("clicked disabled") }} color={"#00ff00"}></Button>
       </View>
-
-      {textHide && <Text> Hide the Text Example</Text>}
-      <Button title={textHide ? 'Hide' : "show"} onPress={() => hideItem()} />
-
-      <View style={styleRB.radioGroup}>
+      <View style={[styles.featureContainer]}>
+        <Text style={[styles.featureHeading]}>Show Hide Demo</Text>
+        {textHide && <Text> Hide the Text Example</Text>}
+        <Button title={textHide ? 'Click to Hide' : "Click to show show"} onPress={() => hideItem()} />
+      </View>
+      <View style={[styles.featureContainer]}>
+        <Text style={[styles.featureHeading]}>Radio button example</Text>
         {/* First radio button for ReactJS */}
-        <View style={styleRB.radioButton}>
+        <View style={[styleRB.radioGroup, styleRB.radioButton]}>
           <RadioButton.Android
             value="option1"
             status={selectedValue === 'option1' ? 'checked' : 'unchecked'}

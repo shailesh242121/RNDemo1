@@ -5,7 +5,7 @@ import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 const NetworkIndex = () => {
 
-    let GET_API = "http://192.168.1.13:3000/user";
+    let GET_API = "http://192.168.1.8:3000/user";
     let GET_API2 = "https://jsonplaceholder.typicode.com/posts/1";
 
     var navigation = useNavigation();

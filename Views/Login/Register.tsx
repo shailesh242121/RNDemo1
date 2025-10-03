@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import User from '../Model/User';
+import { registerUser } from '../../Network/LoginRepository';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -16,12 +17,18 @@ const Register: React.FC = () => {
         }
 
         let newUser = new User(username, dob, email, password);
-        console.log("Registered User: ", newUser);
+        // console.log("Registered User: ", newUser);
         // Alert.alert('Success', `Registered user: ${newUser.getGreeting()}`);
-         addUser(newUser);
+        // addUser();
+        registerUser(newUser, callback);
         // Registration logic here
-        // Alert.alert('Success', 'Registered successfully!');
+        
     };
+
+    function callback(result:string) {
+        console.log("callback called"+ result);
+        Alert.alert('Success', 'Registered successfully!'+JSON.stringify(result));
+    }
 
     return (
         <View style={styles.container}>
@@ -60,31 +67,56 @@ const Register: React.FC = () => {
 
     let GET_API = "http://192.168.1.13:3000/user";
 
-     function addUser(user:User) {
-        console.log("use is "+JSON.stringify(user));
-            fetch(GET_API, {
-                method: 'POST', 
+    async function addUser() {
+        try {
+            const response = await fetch(GET_API, {
+                method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(
-                                    {"dob":"1990-01-01","email":"s@s.com","password":"password123","username":"testassdfasfasdfahishiuser"}
-
-                )
-            })
-                .then((response) => response.json())    
-                .then((json) => {
-                    console.log("Post API call result is ", json);
-                    // setShowResult(true);
-                    // items[0].result = JSON.stringify(json);
-                    // setResult(JSON.stringify(json))
-                    Alert.alert("Post API call result is " + JSON.stringify(json));
+                body: JSON.stringify({
+                    dob: "1990-01-01",
+                    email: "s@s.com",
+                    password: "password123",
+                    username: "testashishasdassdiuser"
                 })
-                .catch((error) => {
-                    console.error(error);
-                });
+            });
+            console.log("Response status: ", response.status);
+            const json = await response.json();
+            console.log("Fetch API call result is ", json);
+            Alert.alert("Fetch API call result is " + JSON.stringify(json));
+        } catch (error) {
+            console.error(error);
         }
+    }
+
+
+
+
+//      function addUser(user:User) {
+//         console.log("use is "+JSON.stringify(user));
+//             fetch(GET_API, {
+//                 method: 'POST', 
+//                 headers: {
+//                     'Accept': 'application/json',
+//                     'Content-Type': 'application/json'
+//                 },
+//                 body: JSON.stringify({"dob":"1990-01-01","email":"s@s.com","password":"password123","username":"testassdfasfasdfahishiuser", id:"7777"}
+// )
+//             })
+//                 .then((response) => response.json())    
+//                 .then((json) => {
+//                     console.log("Post API call result is ", json);
+//                     // setShowResult(true);
+//                     // items[0].result = JSON.stringify(json);
+//                     // setResult(JSON.stringify(json))
+//                     Alert.alert("Post API call result is " + JSON.stringify(json));
+//                 })
+//                 .catch((error) => {
+//                     console.error(error);
+//                 });
+//         }
 };
 
 const styles = StyleSheet.create({

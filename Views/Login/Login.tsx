@@ -1,54 +1,65 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { View, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
-import * as NetworkIndex from '../../Network/NetworkIndex';
+import { View, Keyboard, TextInput, Button, Text, StyleSheet, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import User from '../Model/User';
 
 const Login: React.FC = () => {
-     const navigation = useNavigation();
+    const navigation = useNavigation();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = () => {
+        Keyboard.dismiss();
         setIsLoading(true);
-       if(username === '' || password === '') {
+        if (username === '' || password === '') {
 
-     let user = new User('username', 'passwrd', 'test@t', '1234');
+        //    let user = new User('username', 'passwrd', 'test@t', '1234');
             setIsLoading(false);
-        Alert.alert('Invalid Credentials', 'Please enter username and password',);
-        // navigation.navigate('Home' as never, {userData:{user}} );
-       } else {
-        getUserList(username, password);
-       }
+            Alert.alert('Invalid Credentials', 'Please enter username and password',);
+            // navigation.navigate('Home' as never, {userData:{user}} );
+        } else {
+            getUserList(username, password);
+        }
     };
 
-    let GET_API = "http://192.168.1.13:3000/user";
-     function getUserList(username: string, password: string) {
-        fetch(GET_API+
+    let GET_API = "http://192.168.1.8:3000/user";
+    function getUserList(username: string, password: string) {
+        console.log("Get user list called with ", username, password);
+        console.log("Get user list called with api ", GET_API);
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 60000); // 1 minute
+
+        fetch(
+            GET_API +
             '?username=' + username +
-            '&password=' + password 
+            '&password=' + password,
+            { signal: controller.signal }
         )
             .then((response) => response.json())
             .then((json) => {
+                clearTimeout(timeoutId);
                 console.log("Fetch API call result is ", json);
-                let userList = JSON.stringify(json)
+                let userList = JSON.stringify(json);
                 setIsLoading(false);
-                if(userList === '[]') {
-                    Alert.alert('Invalid Credentials', 'Please enter valid username and password',);
-                }else {
-                    let user= (json as User[])[0];
-             // Alert.alert("User found '" +user.username+"'");
-
+                if (userList === '[]') {
+                    Alert.alert('Invalid Credentials', 'Please enter valid username and password');
+                } else {
+                    let user = (json as User[])[0];
                     navigation.navigate('Home' as never, { userData: { user } } as never);
                 }
-                // setResult(JSON.stringify(json))
             })
             .catch((error) => {
-                console.error(error);
+                clearTimeout(timeoutId);
                 setIsLoading(false);
+                if (error.name === 'AbortError') {
+                    Alert.alert('Timeout', 'Request timed out. Please try again.');
+                } else {
+                    console.error(error);
+                }
             });
     }
+
 
 
     const handleRegister = () => {
@@ -73,8 +84,8 @@ const Login: React.FC = () => {
                 onChangeText={setPassword}
                 secureTextEntry
             />
-           {isLoading && <ActivityIndicator></ActivityIndicator>} 
-           {!isLoading && <Button title="Login" onPress={handleLogin} />}
+            {isLoading && <ActivityIndicator></ActivityIndicator>}
+            {!isLoading && <Button title="Login1" onPress={handleLogin} />}
             <TouchableOpacity onPress={handleRegister} style={styles.registerBtn}>
                 <Text style={styles.registerText}>Register Now</Text>
             </TouchableOpacity>

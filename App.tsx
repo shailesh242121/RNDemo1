@@ -17,7 +17,7 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 //import {StackNavigator} from '@react-navigation/native-stack';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SearchView from './Views/SearchView.tsx';
 import Screen1 from './Views/Navigation/Screen1.tsx';
@@ -31,6 +31,10 @@ import SectionListBasics from './Views/SectionListBasics.tsx';
 import FlexTest from './Views/FlexTest.tsx';
 import TodoList from './Views/todoList/todoList.tsx';
 import NetworkIndex from './Network/NetworkIndex.tsx';
+import ParentComponent from './ChildParentComunicationDemo/Parent.tsx';
+import LoadingButtonExample from './Views/CustomView/LoadingButton.tsx';
+import { Spalsh } from './SplashScreen.tsx';
+import React from 'react';
 
 
 
@@ -38,39 +42,70 @@ const RootStackNav = createNativeStackNavigator({
   screens: {
     Index: {
       screen: indexScreen,
-      options: {title: 'Index'},
+      options: { title: 'Index' },
+
     },
     Views: {
       screen: Views,
     },
-     List: {
+    List: {
       screen: SearchView,
     },
-    sectionList:{
-      screen:SectionListBasics
+    sectionList: {
+      screen: SectionListBasics
     },
-     Login: {
+    Login: {
       screen: Login,
     },
-     Reigster: {
+    Reigster: {
       screen: Register,
     },
-    FlexDemo:{
+    FlexDemo: {
       screen: FlexTest,
     },
-    Todolist:{
+    Todolist: {
       screen: TodoList,
+      options: { title: 'My TodoList' },
+      navigationOptions: {
+        header: {
+          visible: false
+        }
+      }
     },
-    NetworkCall:{
+    NetworkCall: {
       screen: NetworkIndex,
     },
     Home: {
       screen: HomeScreen,
+      //  navigationOptions: null,
+      options: {
+        title: 'Index',
+        headerLeft: () => null,
+        //  header: {
+        // visible: false,
+        //  }
+      },
+      navigationOptions: {
+        title: "My TestAPd",
+        headerLeft: () => null,
+        header: {
+          visible: false,
+        }
+      }
     },
 
+    ChildParentDemo: {
+      screen: ParentComponent,
+    },
+    LoadingButtonExample: {
+      screen: LoadingButtonExample,
+    }
+
   },
+
 });
 
+const [loading, setLoading] = React.useState<boolean>(true)
 
 const style = StyleSheet.create({
   container: {
@@ -88,33 +123,39 @@ const style = StyleSheet.create({
   }
 });
 function App() {
-//  const isDarkMode = useColorScheme() === 'dark';
+  //  const isDarkMode = useColorScheme() === 'dark';
 
 
 
 
-const Navigation = createStaticNavigation(RootStackNav);
+  const Navigation = createStaticNavigation(RootStackNav);
 
-  return(
-    <Navigation />
-  //  <HomeScreen/>
-    // <NavigationContainer>
-    //    <Stack.Navigator initialRouteName="Index">
-    //       <Stack.Screen name="Index" component={Index} />
-    //       <Stack.Screen name="Screen1" component={Screen1} />
-    //     </Stack.Navigator>
-    //  </NavigationContainer>
-    // <View>
-    //   <SearchView />
-    // </View>
+  if (loading) {
+    return (
+      <Spalsh />
+    )
+  }
+  else
+    return (
+      <Navigation />
+      //  <HomeScreen/>
+      // <NavigationContainer>
+      //    <Stack.Navigator initialRouteName="Index">
+      //       <Stack.Screen name="Index" component={Index} />
+      //       <Stack.Screen name="Screen1" component={Screen1} />
+      //     </Stack.Navigator>
+      //  </NavigationContainer>
+      // <View>
+      //   <SearchView />
+      // </View>
 
-  //  SearchViewGroup()
-        //  IndexView()
+      //  SearchViewGroup()
+      //  IndexView()
 
-        // RootStack()
-        // HomeScreenNavigator()
+      // RootStack()
+      // HomeScreenNavigator()
 
-  )
+    )
 
   // function IndexView() {
   //   return (
@@ -137,7 +178,7 @@ const Navigation = createStaticNavigation(RootStackNav);
     Screen1: undefined;
   };
 
-  
+
   // return (
   //   <SafeAreaProvider>
   //     <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />

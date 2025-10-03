@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, Button, TouchableOpacity, ScrollView, View } from 'react-native';
 
 const FlexDirectionBasics = () => {
-  const [flexDirection, setflexDirection] = useState('column');
+  const [flexDirection, setflexDirection] = useState<string>('column');
 
   return (
     <ScrollView style={{ flex: 1 }}>
@@ -24,28 +24,28 @@ const FlexDirectionBasics = () => {
         <View style={[styles.box, { backgroundColor: 'skyblue' }]} />
         <View style={[styles.box, { backgroundColor: 'steelblue' }]} />
       </PreviewLayout>
-      <ButtonLayout titleButton='Test User' onPressMethod={(message:string) =>{ console.log(message)}}></ButtonLayout>
-       <ButtonLayout titleButton='Test User11' onPressMethod={(message:string) =>{ console.log(message)}}></ButtonLayout>
-       {/* <ButtonLayout titleButton='Test User'></ButtonLayout>
+      <ButtonLayout titleButton='Test User' onPressMethod={(message: string) => { console.log(message) }}></ButtonLayout>
+      <ButtonLayout titleButton='Test User11' onPressMethod={(message: string) => { console.log(message) }}></ButtonLayout>
+      {/* <ButtonLayout titleButton='Test User'></ButtonLayout>
         <ButtonLayout titleButton='Test User'></ButtonLayout>
          <ButtonLayout titleButton='Test User'></ButtonLayout> */}
-    
+
     </ScrollView >
   );
 };
 
 type ButtonLayoutProps = {
   titleButton: string;
-   onPressMethod: (value: string) => void
+  onPressMethod: (value: string) => void
 };
 
 const ButtonLayout = ({ titleButton, onPressMethod }: ButtonLayoutProps) => (
 
   (<View>
     <TouchableOpacity
-    style={{paddingLeft:10, paddingRight:10, paddingTop:5, paddingBottom:5,}}>
-      <Button title={titleButton} onPress={() => onPressMethod(getMethodName(titleButton))}/>
-  
+      style={{ paddingLeft: 10, paddingRight: 10, paddingTop: 5, paddingBottom: 5, }}>
+      <Button title={titleButton} onPress={() => onPressMethod(getMethodName(titleButton))} />
+
     </TouchableOpacity>
 
 
@@ -53,11 +53,11 @@ const ButtonLayout = ({ titleButton, onPressMethod }: ButtonLayoutProps) => (
   )
 );
 
-function getMethodName(screenTitle:string){
+function getMethodName(screenTitle: string) {
   console.log("Button clicked and title is ", screenTitle);
-  if(screenTitle === 'Test User'){
+  if (screenTitle === 'Test User') {
     return 'abc'
-  }  else{
+  } else {
     return 'xyz'
   }
 

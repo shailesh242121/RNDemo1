@@ -9,7 +9,7 @@ function getNetworkCall(){
   },
   body: JSON.stringify({
     firstParam: 'yourValue',
-    secondParam: 'yourOtherValue',
+    secondParam: 'test',
   }),
 });
 }

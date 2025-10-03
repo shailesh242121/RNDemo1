@@ -1,7 +1,8 @@
 import { Background } from '@react-navigation/elements';
-import React, { useState } from 'react';
-import { TextInput, Touchable, TouchableOpacity,Alert, TouchableHighlight, View, Button, FlatList, StyleSheet } from 'react-native';
+import React, { useState ,useCallback } from 'react';
+import { TextInput, BackHandler, Touchable, TouchableOpacity,Alert, TouchableHighlight, View, Button, FlatList, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 // const initialTodos = Array.from({ length: 10 }, (_, i) => ({
@@ -54,10 +55,33 @@ var styles = StyleSheet.create({
 
 const TodoList = () => {
 
+
+
+
     const initialTodos: { id: number; title: string; isDone: boolean }[] = [];
 
     const [todos, setTodos] = useState(initialTodos);
     const [inputValue, setInputValue] = useState('');
+
+
+    
+      useFocusEffect(
+        useCallback(() => {
+          const onBackPress = () => {
+            // Return true to prevent the default back action (e.g., popping the screen).
+            // Return false to allow the default back action.
+    
+            console.log("Back button pressed in home screen111");
+            return true;
+          };
+    
+          BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    
+          // return () => {
+          //   BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+          // };
+        }, [])
+      );
 
     const handleInputChange = () => {
         setInputValue(inputValue);

@@ -35,6 +35,8 @@ function indexScreen() {
     { title: 'Show Dynamic Flex Demo', action: () => navigation.navigate('FlexDemo' as never) },
     { title: 'Show Todo list', action: () => navigation.navigate('Todolist' as never) },
     { title: 'Show Network Call Demo', action: () => navigation.navigate('NetworkCall' as never) },
+    {title:'Show Child Parent Demo', action:()=> navigation.navigate('ChildParentDemo' as never)},
+    { title: 'Show Loading Button Demo', action: () => navigation.navigate('LoadingButtonExample' as never) },
   ];
 
 

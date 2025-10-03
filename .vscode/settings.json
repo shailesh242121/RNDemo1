@@ -1,3 +1,7 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "css.format.enable": true,
+    "editor.formatOnSave": true,
+    "java.saveActions.organizeImports": true,
+    "files.autoSave": "afterDelay"
 }
