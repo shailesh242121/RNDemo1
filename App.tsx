@@ -6,7 +6,14 @@
  */
 
 import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, Button, View, Platform } from 'react-native';
+import {
+  StatusBar,
+  StyleSheet,
+  useColorScheme,
+  Button,
+  View,
+  Platform,
+} from 'react-native';
 import {
   SafeAreaProvider,
   useSafeAreaInsets,
@@ -17,87 +24,110 @@ import {
   useNavigationContainerRef,
 } from '@react-navigation/native';
 //import {StackNavigator} from '@react-navigation/native-stack';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import SearchView from './Views/SearchView.tsx';
-import Screen1 from './Views/Navigation/Screen1.tsx';
-import Screen2 from './Views/Navigation/Screen2.tsx';
-import HomeScreen from './Views/Navigation/Home.tsx';
-import indexScreen from './Views/index.tsx';
-import Views from './Views/Views.tsx';
-import Login from './Views/Login/Login.tsx';
-import Register from './Views/Login/Register.tsx';
-import SectionListBasics from './Views/SectionListBasics.tsx';
-import FlexTest from './Views/FlexTest.tsx';
-import TodoList from './Views/todoList/todoList.tsx';
+import SearchView from './src/Views/SearchView.tsx';
+import Screen1 from './src/Views/Navigation/Screen1.tsx';
+import Screen2 from './src/Views/Navigation/Screen2.tsx';
+import HomeScreen from './src/Views/Navigation/Home.tsx';
+import indexScreen from './src/Views/index.tsx';
+import Views from './src/Views/Views.tsx';
+import Login from './src/Views/Login/Login.tsx';
+import Register from './src/Views/Login/Register.tsx';
+import SectionListBasics from './src/Views/SectionListBasics.tsx';
+import FlexTest from './src/Views/FlexTest.tsx';
+import TodoList from './src/Views/todoList/todoList.tsx';
 import NetworkIndex from './Network/NetworkIndex.tsx';
-
-
+import ClassTest from './ClassTest.jsx';
+import ProductHome from './src/Views/Project/ProductProject/ProductHome.tsx';
 
 const RootStackNav = createNativeStackNavigator({
   screens: {
     Index: {
       screen: indexScreen,
-      options: {title: 'Index'},
+      options: {
+        title: 'Index List',
+        headerShown: false,
+        headerBackTitle: 'Back',
+      },
     },
     Views: {
       screen: Views,
+      options: {
+        headerBackTitle: 'Back',
+        headerBackButtonDisplayMode: 'generic',
+      },
     },
-     List: {
+    List: {
       screen: SearchView,
     },
-    sectionList:{
-      screen:SectionListBasics
+    sectionList: {
+      screen: SectionListBasics,
     },
-     Login: {
+    Login: {
       screen: Login,
     },
-     Reigster: {
+    Reigster: {
       screen: Register,
     },
-    FlexDemo:{
+    FlexDemo: {
       screen: FlexTest,
     },
-    Todolist:{
+    Todolist: {
       screen: TodoList,
     },
-    NetworkCall:{
+    NetworkCall: {
       screen: NetworkIndex,
     },
     Home: {
       screen: HomeScreen,
     },
+    classDemo: {
+      screen: ClassTest,
+    },
+    ProductProject: {
+      // screen: ProductHome,
+      screen: require('./src/Views/Project/ProductProject/ProductHome').default,
+    },
 
+    hooksTest: {
+      screen: require('./src/Views/Login/hooks').default,
+    },
+    ReducerDemo: {
+      screen: require('./src/Views/ReducerDemo').default,
+    },
+    Number: {
+      screen: require('./src/Views/ActivityResultTest/Number').default,
+    },
+    addNumber: {
+      screen: require('./src/Views/ActivityResultTest/AddNumber').default,
+    },
   },
 });
 
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    ...Platform.select({
-      ios: {
-        backgroundColor: 'red',
-      },
-      android: {
-        backgroundColor: 'green',
-      }
-    })
-  }
-});
+// const style = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     ...Platform.select({
+//       ios: {
+//         backgroundColor: 'red',
+//       },
+//       android: {
+//         backgroundColor: 'green',
+//       },
+//     }),
+//   },
+// });
 function App() {
-//  const isDarkMode = useColorScheme() === 'dark';
+  //  const isDarkMode = useColorScheme() === 'dark';
 
+  const Navigation = createStaticNavigation(RootStackNav);
 
-
-
-const Navigation = createStaticNavigation(RootStackNav);
-
-  return(
+  return (
     <Navigation />
-  //  <HomeScreen/>
+    //  <HomeScreen/>
     // <NavigationContainer>
     //    <Stack.Navigator initialRouteName="Index">
     //       <Stack.Screen name="Index" component={Index} />
@@ -108,13 +138,12 @@ const Navigation = createStaticNavigation(RootStackNav);
     //   <SearchView />
     // </View>
 
-  //  SearchViewGroup()
-        //  IndexView()
+    //  SearchViewGroup()
+    //  IndexView()
 
-        // RootStack()
-        // HomeScreenNavigator()
-
-  )
+    // RootStack()
+    // HomeScreenNavigator()
+  );
 
   // function IndexView() {
   //   return (
@@ -137,7 +166,6 @@ const Navigation = createStaticNavigation(RootStackNav);
     Screen1: undefined;
   };
 
-  
   // return (
   //   <SafeAreaProvider>
   //     <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
