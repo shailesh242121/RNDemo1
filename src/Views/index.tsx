@@ -88,6 +88,12 @@ function indexScreen() {
         navigation.navigate('Number' as never);
       },
     },
+    {
+      title: 'Show Image Demo',
+      action: () => {
+        navigation.navigate('image' as never);
+      },
+    },
   ];
 
   return (

@@ -102,6 +102,9 @@ const RootStackNav = createNativeStackNavigator({
     addNumber: {
       screen: require('./src/Views/ActivityResultTest/AddNumber').default,
     },
+    image: {
+      screen: require('./src/Views/ImagesTest').default,
+    },
   },
 });
 

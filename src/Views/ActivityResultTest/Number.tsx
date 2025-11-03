@@ -7,7 +7,7 @@ export default function Number() {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Callback Check</Text>
-      <Text> Number is 0</Text>
+      <Text> Number is</Text>
       <Pressable
         style={{
           marginTop: 20,
@@ -19,7 +19,7 @@ export default function Number() {
           navigation.navigate('addNumber' as never);
         }}
       >
-        <Text>Increase Number</Text>
+        <Text>Get Number</Text>
       </Pressable>
     </View>
   );
