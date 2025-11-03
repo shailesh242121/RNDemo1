@@ -7,7 +7,7 @@ import React from 'react';
 
 export function AddNumber(props: { navigation: any; route: any }) {
   const navigation = useNavigation();
-  const [result, setResult] = React.useState('0');
+  const [result, setResult] = React.useState('');
   console.warn('AddNumber props:', props);
   return (
     <View style={styles.container}>
@@ -16,6 +16,7 @@ export function AddNumber(props: { navigation: any; route: any }) {
         placeholder="Enter a number to add"
         placeholderTextColor={'gray'}
         value={result}
+        keyboardType="numeric"
         onChangeText={setResult}
       />
       <Pressable

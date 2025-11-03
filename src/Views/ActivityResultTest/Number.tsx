@@ -8,8 +8,8 @@ export default function Number() {
   const [result, setResult] = React.useState('0');
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Callback Check {result}</Text>
-      <Text> Number is 0</Text>
+      <Text>Callback Check Result from ActivityStarted</Text>
+      <Text> Number is {result}</Text>
       <Pressable
         style={{
           marginTop: 20,
@@ -24,7 +24,7 @@ export default function Number() {
           });
         }}
       >
-        <Text>Get Number</Text>
+        <Text>Get Result from new Screen</Text>
       </Pressable>
     </View>
   );
