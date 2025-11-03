@@ -6,7 +6,7 @@ function ChildComponent() {
   const contextValue = useContext(MyContext);
   return (
     <View>
-      <Text>The value from context is: {contextValue}</Text>
+      <Text>The value from child is: {contextValue}</Text>
     </View>
   );
 }

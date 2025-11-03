@@ -86,6 +86,12 @@ function indexScreen() {
       title: 'Show Number Activity Result Demo',
       action: () => {
         navigation.navigate('Number' as never);
+      }
+    },
+    {
+      title: 'Prop Test Demo',
+      action: () => {
+        navigation.navigate('PropsTest' as never);
       },
     },
   ];

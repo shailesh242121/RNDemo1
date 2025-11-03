@@ -102,6 +102,9 @@ const RootStackNav = createNativeStackNavigator({
     addNumber: {
       screen: require('./src/Views/ActivityResultTest/AddNumber').default,
     },
+    PropsTest: {
+      screen: require('./src/Views/proptest').default,
+    },
   },
 });
 
