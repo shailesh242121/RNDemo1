@@ -1,5 +1,7 @@
 import { Background } from '@react-navigation/elements';
 import React, { useState } from 'react';
+import { useDispatch, UseDispatch, useSelector } from 'react-redux';
+import { addTodo, deleteTodo } from './TodoReducer';
 import {
   TextInput,
   Touchable,
@@ -25,10 +27,10 @@ var styles = StyleSheet.create({
     alignItems: 'center', // Vertically center children
     padding: 10,
     marginBottom: 10,
-    backgroundColor: '#fff',
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ccc',
+    backgroundColor: '#e5e5e5',
   },
   input_box: {
     flex: 1, // Allow TextInput to take up available space
@@ -48,7 +50,6 @@ var styles = StyleSheet.create({
   emptyContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
   },
   emptyText: {
     fontSize: 18,
@@ -64,24 +65,31 @@ var styles = StyleSheet.create({
 
     borderWidth: 1,
     borderColor: '#000',
-    backgroundColor: 'green',
     borderRadius: 5,
   },
 });
 
 const MyEmptyListMessage = () => (
-  <View style={[styles.emptyContainer, { flex: 1, backgroundColor: 'red' }]}>
-    <Text style={[styles.emptyText, { flex: 1, backgroundColor: 'yellow' }]}>
-      No items found.
-    </Text>
+  <View style={[styles.emptyContainer]}>
+    <Text style={[styles.emptyText]}>No items found.</Text>
     {/* You can add more components here, like an image or a button */}
   </View>
 );
 
-const TodoList = () => {
-  const initialTodos: { id: number; title: string; isDone: boolean }[] = [];
+interface todo {
+  id: string;
+  text: string;
+  isDone: boolean;
+}
 
-  const [todos, setTodos] = useState(initialTodos);
+const TodoListRTK = () => {
+  const dispatch = useDispatch();
+  const todos = useSelector(state => state.todos);
+
+  console.log('todo list is ' + JSON.stringify(todos));
+  // const initialTodos: { id: number; title: string; isDone: boolean }[] = [];
+
+  //   const [todos, setTodos] = useState(initialTodos);
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = () => {
@@ -90,50 +98,33 @@ const TodoList = () => {
 
   const handleAddTodo = () => {
     console.log('Adding new todo item ' + inputValue);
-    const i = todos.length + 1;
+    // const i = todos.length + 1;
     if (inputValue.trim() !== '') {
-      console.log('Adding new todo item inside if condition ' + inputValue);
-      setTodos([
-        ...todos,
-        {
-          id: i + 1,
-          title: inputValue,
-          isDone: false,
-        },
-      ]);
-      todos.forEach(todo => {
-        console.log(
-          '{title}' +
-            todo.title +
-            ' {id}' +
-            todo.id +
-            ' {isDone}' +
-            todo.isDone,
-        );
-      });
+      dispatch(addTodo(inputValue));
       setInputValue('');
     }
   };
 
   const handleDeleteTodo = (index: Number) => {
-    const newTodos = todos.filter((_, i) => i !== index);
-    setTodos(newTodos);
+    dispatch(deleteTodo(index));
+    // const newTodos = todos.filter((_, i) => i !== index);
+    // setTodos(newTodos);
   };
-  function renderItem():
-    | import('react-native').ListRenderItem<{
-        id: number;
-        title: string;
-        isDone: boolean;
-      }>
-    | null
-    | undefined {
-    throw new Error('Function not implemented.');
-  }
+  // function renderItem():
+  //   | import('react-native').ListRenderItem<{
+  //       id: number;
+  //       text: string;
+  //       isDone: boolean;
+  //     }>
+  //   | null
+  //   | undefined {
+  //   throw new Error('Function not implemented.');
+  // }
 
   // setTodos(initialTodos);
 
   return (
-    <View style={{ flex: 1, padding: 20, backgroundColor: 'blue' }}>
+    <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
           style={{
@@ -169,7 +160,7 @@ const TodoList = () => {
         keyExtractor={item => item.id.toString()}
         renderItem={renderItemDemo}
         ListEmptyComponent={MyEmptyListMessage}
-        style={{ marginTop: 20, backgroundColor: 'green', flex: 1 }}
+        style={{ marginTop: 20, flex: 1 }}
       />
     </View>
   );
@@ -178,24 +169,25 @@ const TodoList = () => {
     item,
     index,
   }: {
-    item: { id: number; title: string; isDone: boolean };
+    item: { id: number; text: string; isDone: boolean };
     index: number;
   }) {
     return (
       <View style={styles.container_box}>
-        <Text style={{ flex: 1 }}>{item.title}</Text>
+        <Text style={{ flex: 1 }}>{item.text}</Text>
         <TouchableOpacity
           style={{ marginTop: 10 }}
-          onPress={() =>
-            Alert.alert("Are you sure to delete '" + item.title + "'?", '', [
+          onPress={() => {
+            console.log(`item to delete ; ${item.id} && ${item.text}`);
+            Alert.alert("Are you sure to delete '" + item.text + "'?", '', [
               {
                 text: 'Cancel',
                 onPress: () => {},
                 style: 'cancel',
               },
-              { text: 'OK', onPress: () => handleDeleteTodo(index) },
-            ])
-          }
+              { text: 'OK', onPress: () => handleDeleteTodo(item.id) },
+            ]);
+          }}
         >
           <Text
             style={{
@@ -231,4 +223,4 @@ const TodoList = () => {
   }
 };
 
-export default TodoList;
+export default TodoListRTK;

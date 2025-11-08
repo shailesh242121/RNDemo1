@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
 import { Pressable, StyleSheet, TextInput, View, Text } from 'react-native';
 import AppStyle from '../../../MyStylesheet';
-import { Background } from '@react-navigation/elements';
 import React from 'react';
-// import styles from './MyStylesheet';
 
-export function AddNumber(props: { navigation: any; route: any }) {
+export function AddNumber(props: {
+  navigation: {};
+  route: { params: { onGoBack: (number?: string) => void } };
+}) {
   const navigation = useNavigation();
   const [result, setResult] = React.useState('');
   console.warn('AddNumber props:', props);

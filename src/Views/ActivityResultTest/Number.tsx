@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { Pressable, View } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
+
+type RootStackParamList = {
+  addNumber: { onGoBack?: (number?: string) => void };
+};
 
 export default function Number() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const [result, setResult] = React.useState('0');
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -19,7 +23,7 @@ export default function Number() {
         }}
         onPress={() => {
           console.log('Press Increase Number');
-          navigation.navigate('addNumber' as never, {
+          navigation.navigate('addNumber', {
             onGoBack: refresh,
           });
         }}

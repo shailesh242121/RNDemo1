@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View,
+  ScrollView,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import User from './Model/User';
 
@@ -8,7 +16,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#4980d2ff',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 5,
@@ -17,9 +25,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   opacityStyle: {
+    backgroundColor: '#0365f8ff',
+    borderRadius: 10,
+    padding: 10,
     marginLeft: 20,
     marginRight: 20,
-    marginTop: 10,
+    marginVertical: 5,
   },
 });
 function indexScreen() {
@@ -39,6 +50,14 @@ function indexScreen() {
     {
       title: 'Show List Demo',
       action: () => navigation.navigate('List' as never),
+    },
+    {
+      title: 'Show Native Bridge Demo',
+      action: () => navigation.navigate('NativeBridgeDemo' as never),
+    },
+    {
+      title: 'Show Grid Demo',
+      action: () => navigation.navigate('Grid' as never),
     },
     {
       title: 'Show Login Demo',
@@ -86,7 +105,19 @@ function indexScreen() {
       title: 'Show Number Activity Result Demo',
       action: () => {
         navigation.navigate('Number' as never);
-      }
+      },
+    },
+    {
+      title: 'Prop Test Demo',
+      action: () => {
+        navigation.navigate('PropsTest' as never);
+      },
+    },
+    {
+      title: 'Show Number Activity Result Demo',
+      action: () => {
+        navigation.navigate('Number' as never);
+      },
     },
     {
       title: 'Prop Test Demo',
@@ -100,16 +131,26 @@ function indexScreen() {
         navigation.navigate('image' as never);
       },
     },
+    {
+      title: 'Show List RTK',
+      action: () => {
+        navigation.navigate('TodoListRTX' as never);
+      },
+    },
   ];
 
   return (
-    <View style={{ marginTop: 50, flex: 1 }}>
+    <ScrollView style={{ gap: 20, flex: 1 }}>
       {actionList.map((item, index) => (
-        <TouchableOpacity key={index} style={styles.opacityStyle}>
-          <Button title={item.title} onPress={item.action} />
-        </TouchableOpacity>
+        <Pressable
+          key={index}
+          onPress={item.action}
+          style={styles.opacityStyle}
+        >
+          <Text style={{ color: 'white' }}>{item.title} </Text>
+        </Pressable>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 

@@ -18,6 +18,17 @@ const DATA = [
 ];
 
 class SearchView extends React.Component {
+  constructor(props: any) {
+    super(props);
+    console.log('Props in SearchView:', props.route.params.listType);
+    console.log('Initial Color:', props.route.params.listType === 'List');
+    this.state = {
+      initialColor: props.route.params.initialColor
+        ? props.route.params.initialColor
+        : '#0000ff',
+      numColumns: props.route.params.listType === 'List' ? 1 : 3,
+    };
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -28,17 +39,17 @@ class SearchView extends React.Component {
             padding: 10,
             fontSize: 22,
             textAlign: 'center',
-            marginBottom: 10,
           }}
         >
           List View
         </Text>
 
         <FlatList
-          style={{ marginBottom: 70 }}
+          style={{ marginBottom: 50, backgroundColor: this.state.initialColor }} // Style for the FlatList
           data={DATA} // Data to display in the list
           renderItem={({ item }) => <Item title={item.title} />} // Render each item using the Item component
           keyExtractor={item => item.id} // Unique key for each item
+          numColumns={this.state.numColumns} // Display items in a grid with 2 columns
         />
       </View>
     );
@@ -46,7 +57,7 @@ class SearchView extends React.Component {
 }
 
 const Item = ({ title }: { title: string }) => (
-  <View style={styles.item}>
+  <View style={styles.row}>
     <Text style={styles.itemText}>{title}</Text>
   </View>
 );
@@ -55,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     // padding: 10, // Padding inside the container
   },
-  item: {
+  row: {
     backgroundColor: 'green', // Background color for each item
     padding: 20, // Padding inside each item
     marginVertical: 8, // Vertical margin between items

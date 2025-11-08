@@ -60,7 +60,7 @@ const Login: React.FC = () => {
 
   const handleRegister = () => {
     // Handle register navigation here
-    navigation.navigate('Reigster' as never);
+    navigation.navigate('Register' as never);
   };
 
   return (

@@ -40,6 +40,7 @@ import TodoList from './src/Views/todoList/todoList.tsx';
 import NetworkIndex from './Network/NetworkIndex.tsx';
 import ClassTest from './ClassTest.jsx';
 import ProductHome from './src/Views/Project/ProductProject/ProductHome.tsx';
+import NativeCallback from './src/Views/NativeCallback.tsx';
 
 const RootStackNav = createNativeStackNavigator({
   screens: {
@@ -61,6 +62,9 @@ const RootStackNav = createNativeStackNavigator({
     List: {
       screen: SearchView,
     },
+    // NativeBridgeDemo: {
+    //   screen: NativeCallback,
+    // },
     sectionList: {
       screen: SectionListBasics,
     },
@@ -107,6 +111,10 @@ const RootStackNav = createNativeStackNavigator({
     },
     image: {
       screen: require('./src/Views/ImagesTest').default,
+    },
+    DynamicNavigationStack: {
+      screen: require('./src/Views/Navigation/Nav2/dynamicNavigationStack')
+        .default,
     },
   },
 });
