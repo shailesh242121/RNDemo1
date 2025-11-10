@@ -1,7 +1,7 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
 const initialState = {
-  todos: [{ id: '1', text: 'my first todo' }],
+  todos: [{ id: '1', isDone: false, text: 'my first todo' }],
 };
 const todoslice = createSlice({
   name: 'todoList',
@@ -11,6 +11,7 @@ const todoslice = createSlice({
       const todo = {
         id: nanoid(),
         text: action.payload,
+        isDone: false,
       };
 
       state.todos.push(todo);
@@ -25,8 +26,17 @@ const todoslice = createSlice({
       });
       console.log(JSON.stringify(state.todos));
     },
+    updateTodo: (state, action) => {
+      const { id, text, isDone } = action.payload;
+      const existingTodo = state.todos.find(todo => todo.id === id);
+      if (existingTodo) {
+        existingTodo.text = text;
+        existingTodo.isDone = !isDone;
+      }
+
+    }
   },
 });
 
-export const { addTodo, deleteTodo } = todoslice.actions;
+export const { addTodo, deleteTodo, updateTodo } = todoslice.actions;
 export default todoslice.reducer;

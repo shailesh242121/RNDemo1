@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   ActivityIndicator,
+  Keyboard,
 } from 'react-native';
 import * as NetworkIndex from '../../../Network/NetworkIndex';
 import User from '../Model/User';
@@ -33,6 +34,7 @@ const Login: React.FC = () => {
 
   let GET_API = 'http://192.168.1.13:3000/user';
   function getUserList(username: string, password: string) {
+    Keyboard.dismiss();
     fetch(GET_API + '?username=' + username + '&password=' + password)
       .then(response => response.json())
       .then(json => {
@@ -46,9 +48,9 @@ const Login: React.FC = () => {
           );
         } else {
           let user = (json as User[])[0];
-          // Alert.alert("User found '" +user.username+"'");
-
-          navigation.navigate('Home' as never, { userData: { user } } as never);
+          // console.log("User found '" +user.username+"'");
+          navigation.navigate('HomeDrawer' as never);
+          // navigation.navigate('Home' as never, { userData: { user } } as never);
         }
         // setResult(JSON.stringify(json))
       })
@@ -60,6 +62,7 @@ const Login: React.FC = () => {
 
   const handleRegister = () => {
     // Handle register navigation here
+    Keyboard.dismiss();
     navigation.navigate('Register' as never);
   };
 

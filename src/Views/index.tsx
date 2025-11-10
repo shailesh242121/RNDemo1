@@ -137,6 +137,12 @@ function indexScreen() {
         navigation.navigate('TodoListRTX' as never);
       },
     },
+    {
+      title: 'Show Drawer Navigation Demo',
+      action: () => {
+        navigation.navigate('HomeDrawer' as never);
+      },
+    },
   ];
 
   return (

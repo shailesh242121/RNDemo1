@@ -1,7 +1,7 @@
 import { Background } from '@react-navigation/elements';
 import React, { useState } from 'react';
 import { useDispatch, UseDispatch, useSelector } from 'react-redux';
-import { addTodo, deleteTodo } from './TodoReducer';
+import { addTodo, deleteTodo, updateTodo } from './TodoReducer';
 import {
   TextInput,
   Touchable,
@@ -12,8 +12,11 @@ import {
   Button,
   FlatList,
   StyleSheet,
+  Pressable,
 } from 'react-native';
 import { Text } from 'react-native-paper';
+
+import MyStylesheet from '../../../MyStylesheet';
 
 // const initialTodos = Array.from({ length: 10 }, (_, i) => ({
 //             id: i + 1,
@@ -22,65 +25,21 @@ import { Text } from 'react-native-paper';
 //     }));
 
 var styles = StyleSheet.create({
-  container_box: {
-    flexDirection: 'row', // Arrange children horizontally
-    alignItems: 'center', // Vertically center children
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    backgroundColor: '#e5e5e5',
-  },
-  input_box: {
-    flex: 1, // Allow TextInput to take up available space
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#eee',
-    paddingHorizontal: 10,
-    marginRight: 10, // Add some space between TextInput and Button
-    borderRadius: 5,
-  },
-  submit: {
-    backgroundColor: '#68a0cf',
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: '#fff',
-  },
-  emptyContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  emptyText: {
-    fontSize: 18,
-    color: '#888',
-  },
-  submitText: {
-    color: '#fff',
-    textAlign: 'center',
-    paddingLeft: 10,
-    paddingTop: 7,
-    paddingBottom: 7,
-    paddingRight: 10,
 
-    borderWidth: 1,
-    borderColor: '#000',
-    borderRadius: 5,
-  },
 });
 
 const MyEmptyListMessage = () => (
-  <View style={[styles.emptyContainer]}>
-    <Text style={[styles.emptyText]}>No items found.</Text>
+  <View style={[MyStylesheet.emptyContainer]}>
+    <Text style={[MyStylesheet.emptyText]}>No items found.</Text>
     {/* You can add more components here, like an image or a button */}
   </View>
 );
 
-interface todo {
-  id: string;
-  text: string;
-  isDone: boolean;
-}
+// interface todo {
+//   id: string;
+//   text: string;
+//   isDone: boolean;
+// }
 
 const TodoListRTK = () => {
   const dispatch = useDispatch();
@@ -107,52 +66,33 @@ const TodoListRTK = () => {
 
   const handleDeleteTodo = (index: Number) => {
     dispatch(deleteTodo(index));
-    // const newTodos = todos.filter((_, i) => i !== index);
-    // setTodos(newTodos);
   };
-  // function renderItem():
-  //   | import('react-native').ListRenderItem<{
-  //       id: number;
-  //       text: string;
-  //       isDone: boolean;
-  //     }>
-  //   | null
-  //   | undefined {
-  //   throw new Error('Function not implemented.');
-  // }
 
-  // setTodos(initialTodos);
+  const updateTodoItem = (item: any) => {
+    dispatch(updateTodo(item));
+  };
+
 
   return (
     <View style={{ flex: 1, padding: 20 }}>
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <TextInput
-          style={{
-            flex: 1,
-            backgroundColor: 'white',
-            color: 'black',
-            height: 40,
-            padding: 10,
-            borderWidth: 1,
-            borderRadius: 5,
-            margin: 10,
-          }}
+          style={[MyStylesheet.input_box]}
           placeholder="Add Todo Item"
           onChangeText={setInputValue}
           value={inputValue}
         />
 
         <TouchableHighlight
-          style={styles.submit}
+          style={MyStylesheet.submit}
           onPress={() => {
             handleAddTodo();
           }}
           underlayColor="#fff"
         >
-          <Text style={[styles.submitText]}>Submit</Text>
+          <Text style={[MyStylesheet.submitText]}>Submit</Text>
         </TouchableHighlight>
-        {/* 
-                <Button title='Add' onPress={() => { handleAddTodo() }} /> */}
+
       </View>
 
       <FlatList
@@ -172,36 +112,40 @@ const TodoListRTK = () => {
     item: { id: number; text: string; isDone: boolean };
     index: number;
   }) {
+    console.log(`rendering item ${item.isDone} at index ${index}`);
     return (
-      <View style={styles.container_box}>
-        <Text style={{ flex: 1 }}>{item.text}</Text>
-        <TouchableOpacity
-          style={{ marginTop: 10 }}
-          onPress={() => {
-            console.log(`item to delete ; ${item.id} && ${item.text}`);
-            Alert.alert("Are you sure to delete '" + item.text + "'?", '', [
-              {
-                text: 'Cancel',
-                onPress: () => {},
-                style: 'cancel',
-              },
-              { text: 'OK', onPress: () => handleDeleteTodo(item.id) },
-            ]);
-          }}
-        >
-          <Text
-            style={{
-              color: 'white',
-              backgroundColor: 'red',
-              padding: 5,
-              borderRadius: 5,
-              borderWidth: 1,
-              borderColor: 'darkred',
+      <View style={MyStylesheet.container_box}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <Text style={item.isDone ? MyStylesheet.strikeThrough : {}}>`{item.text}`</Text>
+        </View>
+        <View style={{ flex: 1, flexDirection: 'row', marginTop: 10 }}>
+          <Pressable onPress={() => {
+            updateTodoItem(item);
+          }}>
+            <Text>
+              The user is{' '}
+              {item.isDone ? 'currently' : 'not'} logged in.
+            </Text>
+            <Text style={[MyStylesheet.deleteText, { backgroundColor: 'green', marginRight: 10 }]}>
+              {!item.isDone ? 'Mark as done' : 'UnDone'}</Text>
+          </Pressable>
+
+          <TouchableOpacity
+            onPress={() => {
+              console.log(`item to delete ; ${item.id} && ${item.text}`);
+              Alert.alert("Are you sure to delete '" + item.text + "'?", '', [
+                {
+                  text: 'Cancel',
+                  onPress: () => { },
+                  style: 'cancel',
+                },
+                { text: 'OK', onPress: () => handleDeleteTodo(item.id) },
+              ]);
             }}
           >
-            Delete
-          </Text>
-        </TouchableOpacity>
+            <Text style={MyStylesheet.deleteText}>Delete</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -215,7 +159,7 @@ const TodoListRTK = () => {
     Alert.alert("Are you sure to delete '" + item.title + "'", '', [
       {
         text: 'Cancel',
-        onPress: () => {},
+        onPress: () => { },
         style: 'cancel',
       },
       { text: 'OK', onPress: () => handleDeleteTodo(index) },

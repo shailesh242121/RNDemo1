@@ -27,6 +27,7 @@ export type RootStackParamList = {
   image: undefined;
   NativeBridgeDemo: undefined;
   TodoListRTX: undefined;
+  HomeDrawer: undefined;
 };
 
 export type addNumberType = {
